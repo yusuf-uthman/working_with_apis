@@ -18,7 +18,7 @@ while page <= pages:
         data_pages.extend(response['results'])
         page += 1
 
-print(f"lenght of data is {len(data_pages)}")
+# print(f"lenght of data is {len(data_pages)}")
 
 df_pages = pd.DataFrame(data_pages)
 
