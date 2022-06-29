@@ -25,7 +25,7 @@ def pull_and_insert_data(schema, table, page_num):
         url = f'https://rickandmortyapi.com/api/character?page={page_num}'
         response = requests.get(url)
         data  = response.json()
-
+        # try block to catch errors when there is no more data from the dapi
         try:
             print(f"This payload has {len(data['results'][0])} records")
         except:
@@ -101,24 +101,14 @@ def truncate_table(schema, table):
     conn.commit()      
 
 
-# insert and commit data into the  database
-for rec in actor_list_list:
-    cursor.execute("""INSERT into api_schema.rick_and_morty(id, name, species, type, gender, origin, url, location, image,
-                      num_episode_feature, created)         
-                      VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) 
-                   """, rec)
-conn.commit()
-
-# confirm data insert
-script  = "SELECT * FROM api_schema.rick_and_morty;"
-cursor.execute(script)
-
-query_result = []
-for rec in cursor.fetchall():
-    query_result.append(rec)
-
-print(len(query_result))
-
+# fetch inserted data from database
+def query_database(schema, table):
+    query_result = []    
+    script  = f"""SELECT * FROM {schema}.{table};"""
+    cursor.execute(script)
+    for rec in cursor.fetchall():
+        query_result.append(rec)
+    return query_result
 
 # View db records using pandas  
 import pandas as pd
