@@ -17,7 +17,7 @@ cursor = conn.cursor()
 
 
 # pull data from the api into alist as both list and dictionary
-page_num = 40 #This proces start from 40 to avoid multiple unneccessary to the API
+page_num = 41 #This proces start from 40 to avoid multiple unneccessary to the API
 
 actor_dict_list = []
 actor_list_list = []
@@ -68,32 +68,35 @@ while True:
 print(f"Actor_Dict_List has {len(actor_dict_list)} records while Actor_List_List {len(actor_list_list)} records")
 
 
-# ceate schema
-cursor.execute(""" CREATE SCHEMA  if not exists api_schema; """)
-conn.commit()
+# create schema function
+def create_schema(schema):
+    cursor.execute(f""" CREATE SCHEMA  if not exists {schema};""")
+    conn.commit()
+    
+# create table function
+def create_table(schema, table):
+    cursor.execute(f""" 
+    CREATE TABLE IF NOT EXISTS {schema}.{table}(
+                        id SERIAL primary key,
+                        name varchar(200),
+                        species varchar(200),
+                        type varchar(200),
+                        gender varchar(20),
+                        origin varchar(200),
+                        url varchar(200),
+                        location varchar(200),
+                        image varchar(200),
+                        num_episode_feature int,
+                        created timestamp,  
+                        insert_date date DEFAULT now()
+    )
+    """)
+    conn.commit()  
 
-# create table
-cursor.execute(""" 
-CREATE TABLE IF NOT EXISTS api_schema.rick_and_morty(
-                    id SERIAL primary key,
-                    name varchar(200),
-                    species varchar(200),
-                    type varchar(200),
-                    gender varchar(20),
-                    origin varchar(200),
-                    url varchar(200),
-                    location varchar(200),
-                    image varchar(200),
-                    num_episode_feature int,
-                    created timestamp,  
-                    insert_date date DEFAULT now()
-)
-""")
-conn.commit()
-
-# truncate table
-cursor.execute(""" Truncate table api_schema.rick_and_morty; """)
-conn.commit()
+# truncate table function
+def truncate_table(schema, table):
+    cursor.execute(f""" Truncate table {schema}.{table}; """)
+    conn.commit()      
 
 
 # insert and commit data into the  database
