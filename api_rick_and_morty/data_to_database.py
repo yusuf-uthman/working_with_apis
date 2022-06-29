@@ -1,8 +1,8 @@
 import requests
-import pandas     as pd
 from   sqlalchemy import create_engine 
 import config
 
+# call database credentials from imported config file
 password  = config.password
 user      = config.user
 db        = config.db
@@ -15,6 +15,46 @@ engine = create_engine(f"postgresql://{user}:{password}@{host}:{port}/{db}")
 conn   = engine.raw_connection()
 cursor = conn.cursor()
 
+# main function that calls all other functions
+def process_api_data_all(schema, table, page_num):
+    create_schema(schema)
+    create_table(schema, table)
+    truncate_table(schema, table)
+    data_inserted = pull_and_insert_data(schema, table, page_num)
+    data_fetched = query_database(schema, table)
+    if len(data_inserted[1]) == len(data_fetched):
+        print(f"""Data count from api and database are {len(data_inserted[1])} and {len(data_fetched)} respectively. Operation successfull!""")
+    conn.close()
+
+# create schema function
+def create_schema(schema):
+    cursor.execute(f""" CREATE SCHEMA  if not exists {schema};""")
+    conn.commit()
+    
+# create table function
+def create_table(schema, table):
+    cursor.execute(f""" 
+    CREATE TABLE IF NOT EXISTS {schema}.{table}(
+                        id SERIAL primary key,
+                        name varchar(200),
+                        species varchar(200),
+                        type varchar(200),
+                        gender varchar(20),
+                        origin varchar(200),
+                        url varchar(200),
+                        location varchar(200),
+                        image varchar(200),
+                        num_episode_feature int,
+                        created timestamp,  
+                        insert_date date DEFAULT now()
+    )
+    """)
+    conn.commit()  
+
+# truncate table function
+def truncate_table(schema, table):
+    cursor.execute(f""" Truncate table {schema}.{table}; """)
+    conn.commit()      
 
 # function to pull and insert api data inot the database
 def pull_and_insert_data(schema, table, page_num):
@@ -70,37 +110,6 @@ def pull_and_insert_data(schema, table, page_num):
         conn.commit()
     return[actor_dict_list,actor_list_list]
 
-# create schema function
-def create_schema(schema):
-    cursor.execute(f""" CREATE SCHEMA  if not exists {schema};""")
-    conn.commit()
-    
-# create table function
-def create_table(schema, table):
-    cursor.execute(f""" 
-    CREATE TABLE IF NOT EXISTS {schema}.{table}(
-                        id SERIAL primary key,
-                        name varchar(200),
-                        species varchar(200),
-                        type varchar(200),
-                        gender varchar(20),
-                        origin varchar(200),
-                        url varchar(200),
-                        location varchar(200),
-                        image varchar(200),
-                        num_episode_feature int,
-                        created timestamp,  
-                        insert_date date DEFAULT now()
-    )
-    """)
-    conn.commit()  
-
-# truncate table function
-def truncate_table(schema, table):
-    cursor.execute(f""" Truncate table {schema}.{table}; """)
-    conn.commit()      
-
-
 # fetch inserted data from database
 def query_database(schema, table):
     query_result = []    
@@ -110,20 +119,9 @@ def query_database(schema, table):
         query_result.append(rec)
     return query_result
 
-# main function that calls all other functions
-def process_api_data_all(schema, table, page_num):
-    create_schema(schema)
-    create_table(schema, table)
-    truncate_table(schema, table)
-    data_inserted = pull_and_insert_data(schema, table, page_num)
-    data_fetched = query_database(schema, table)
-    if len(data_inserted[1]) == len(data_fetched):
-        print(f"""Data count from api and database are {len(data_inserted[1])} and {len(data_fetched)} respectively. Operation successfull!""")
-    conn.close()
-
 # call main function to run the program
 if __name__ == '__main__':
-    schema   = input("Enter Schema Name:\n ").lower()
-    table    = input("Enter Table Name:  \n").lower()
-    page_num = int(input("Enter API Start Page Number: \n"))
+    schema   = input("Enter Schema Name: ").lower()
+    table    = input("Enter Table Name: ").lower()
+    page_num = int(input("Enter API Start Page Number: "))
     process_api_data_all(schema, table, page_num)
