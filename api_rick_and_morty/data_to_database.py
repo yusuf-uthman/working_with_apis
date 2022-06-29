@@ -95,4 +95,12 @@ conn.commit()
 cursor.execute(""" Truncate table api_schema.rick_and_morty; """)
 conn.commit()
 
-print(engine)
+
+# insert and commit data into the  database
+for rec in actor_list_list:
+    cursor.execute("""INSERT into api_schema.rick_and_morty(id, name, species, type, gender, origin, url, location, image,
+                      num_episode_feature, created)         
+                      VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) 
+                   """, rec)
+conn.commit()
+
