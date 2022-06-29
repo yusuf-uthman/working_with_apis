@@ -12,6 +12,7 @@ while True:
         page += 1
     else:
         break
+ 
 
 print(f"lenght of data is {len(data_count)}")
 

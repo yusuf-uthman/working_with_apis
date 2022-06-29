@@ -1,7 +1,6 @@
 import requests
 import pandas as pd
 
-url = 'https://rickandmortyapi.com/api/character?page='
 page_num = 40
 data_results = []
 
