@@ -1,8 +1,8 @@
 import requests
-import pandas     as pd
 from   sqlalchemy import create_engine 
 import config
 
+# call database credentials from imported config file
 password  = config.password
 user      = config.user
 db        = config.db
@@ -15,58 +15,16 @@ engine = create_engine(f"postgresql://{user}:{password}@{host}:{port}/{db}")
 conn   = engine.raw_connection()
 cursor = conn.cursor()
 
-
-# pull data from the api into alist as both list and dictionary
-page_num = 41 #This proces start from 40 to avoid multiple unneccessary to the API
-
-actor_dict_list = []
-actor_list_list = []
-
-while True:
-    url = f'https://rickandmortyapi.com/api/character?page={page_num}'
-    response = requests.get(url)
-    data  = response.json()
-    
-    try:
-        print(f"This payload has {len(data['results'][0])} records")
-    except:
-        print('No more results, Exit loop')
-        break
-    for rec in data['results']:
-        #dictionary
-        actor_dict ={
-            'id': rec['id'],
-            'name': rec['name'],
-            'species': rec['species'],
-            'type': rec['type'],
-            'gender': rec['gender'],
-            'origin': rec['origin']['name'],
-            'url': rec['url'],
-            'location': rec['location']['name'],
-            'image': rec['image'],
-            'num_episode_feature': len(rec['episode']),
-            'created': rec['created']
-        }
-        #list
-        actor_list =[
-           rec['id'],
-           rec['name'],
-           rec['species'],
-           rec['type'],
-           rec['gender'],
-           rec['origin']['name'],
-           rec['url'],
-           rec['location']['name'],
-           rec['image'],
-       len(rec['episode']),
-           rec['created']
-        ]
-        actor_dict_list.append(actor_dict)
-        actor_list_list.append(actor_list)   
-    page_num +=1
-
-print(f"Actor_Dict_List has {len(actor_dict_list)} records while Actor_List_List {len(actor_list_list)} records")
-
+# main function that calls all other functions
+def process_api_data_all(schema, table, page_num):
+    create_schema(schema)
+    create_table(schema, table)
+    truncate_table(schema, table)
+    data_inserted = pull_and_insert_data(schema, table, page_num)
+    data_fetched = query_database(schema, table)
+    if len(data_inserted[1]) == len(data_fetched):
+        print(f"""Data count from api and database are {len(data_inserted[1])} and {len(data_fetched)} respectively. Operation successfull!""")
+    conn.close()
 
 # create schema function
 def create_schema(schema):
@@ -98,29 +56,72 @@ def truncate_table(schema, table):
     cursor.execute(f""" Truncate table {schema}.{table}; """)
     conn.commit()      
 
+# function to pull and insert api data inot the database
+def pull_and_insert_data(schema, table, page_num):
+    actor_dict_list = []  #list for dicts
+    actor_list_list = []  #list for lists
 
-# insert and commit data into the  database
-for rec in actor_list_list:
-    cursor.execute("""INSERT into api_schema.rick_and_morty(id, name, species, type, gender, origin, url, location, image,
-                      num_episode_feature, created)         
-                      VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) 
-                   """, rec)
-conn.commit()
+    while True:
+        url = f'https://rickandmortyapi.com/api/character?page={page_num}'
+        response = requests.get(url)
+        data  = response.json()
+        # try block to catch errors when there is no more data from the dapi
+        try:
+            print(f"This payload has {len(data['results'][0])} records")
+        except:
+            print('No more data in API, Exited loop!')
+            break
+        for rec in data['results']:
+            #dictionary
+            actor_dict ={
+                'id': rec['id'],
+                'name': rec['name'],
+                'species': rec['species'],
+                'type': rec['type'],
+                'gender': rec['gender'],
+                'origin': rec['origin']['name'],
+                'url': rec['url'],
+                'location': rec['location']['name'],
+                'image': rec['image'],
+                'num_episode_feature': len(rec['episode']),
+                'created': rec['created']
+            }
+            #list
+            actor_list =[
+               rec['id'],
+               rec['name'],
+               rec['species'],
+               rec['type'],
+               rec['gender'],
+               rec['origin']['name'],
+               rec['url'],
+               rec['location']['name'],
+               rec['image'],
+           len(rec['episode']),
+               rec['created']
+            ]
+            actor_dict_list.append(actor_dict)
+            actor_list_list.append(actor_list)   
+        page_num +=1
+    for rec in actor_list_list:
+        cursor.execute(f"""INSERT into {schema}.{table}(id, name, species, type, gender, origin, url, location,
+                           image, num_episode_feature, created) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)  
+                        """, rec)
+        conn.commit()
+    return[actor_dict_list,actor_list_list]
 
-# confirm data insert
-script  = "SELECT * FROM api_schema.rick_and_morty;"
-cursor.execute(script)
+# fetch inserted data from database
+def query_database(schema, table):
+    query_result = []    
+    script  = f"""SELECT * FROM {schema}.{table};"""
+    cursor.execute(script)
+    for rec in cursor.fetchall():
+        query_result.append(rec)
+    return query_result
 
-query_result = []
-for rec in cursor.fetchall():
-    query_result.append(rec)
-
-print(len(query_result))
-
-
-# View db records using pandas  
-import pandas as pd
-column_names=['id', 'name', 'species', 'type', 'gender', 'origin', 'url', 'location', 'image', 'num_episode_feature',
-              'created', 'insert_date']
-df = pd.DataFrame(query_result, columns = column_names)
-print(df.head())
+# call main function to run the program
+if __name__ == '__main__':
+    schema   = input("Enter Schema Name: ").lower()
+    table    = input("Enter Table Name: ").lower()
+    page_num = int(input("Enter API Start Page Number: "))
+    process_api_data_all(schema, table, page_num)
