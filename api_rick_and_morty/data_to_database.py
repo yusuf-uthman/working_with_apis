@@ -67,4 +67,32 @@ while True:
 
 print(f"Actor_Dict_List has {len(actor_dict_list)} records while Actor_List_List {len(actor_list_list)} records")
 
+
+# ceate schema
+cursor.execute(""" CREATE SCHEMA  if not exists api_schema; """)
+conn.commit()
+
+# create table
+cursor.execute(""" 
+CREATE TABLE IF NOT EXISTS api_schema.rick_and_morty(
+                    id SERIAL primary key,
+                    name varchar(200),
+                    species varchar(200),
+                    type varchar(200),
+                    gender varchar(20),
+                    origin varchar(200),
+                    url varchar(200),
+                    location varchar(200),
+                    image varchar(200),
+                    num_episode_feature int,
+                    created timestamp,  
+                    insert_date date DEFAULT now()
+)
+""")
+conn.commit()
+
+# truncate table
+cursor.execute(""" Truncate table api_schema.rick_and_morty; """)
+conn.commit()
+
 print(engine)
