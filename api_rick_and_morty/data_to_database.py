@@ -28,7 +28,7 @@ while True:
     data  = response.json()
     
     try:
-        print(len(data['results'][0]))
+        print(f"This payload has {len(data['results'][0])} records")
     except:
         print('No more results, Exit loop')
         break
@@ -65,7 +65,6 @@ while True:
         actor_list_list.append(actor_list)   
     page_num +=1
 
-print(f"Actor_Dict_List has {len(actor_dict_list)} and Actor_List_List len(actor_list_list)")
+print(f"Actor_Dict_List has {len(actor_dict_list)} records while Actor_List_List {len(actor_list_list)} records")
 
 print(engine)
-
