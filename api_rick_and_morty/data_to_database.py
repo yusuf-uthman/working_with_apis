@@ -104,3 +104,20 @@ for rec in actor_list_list:
                    """, rec)
 conn.commit()
 
+# confirm data insert
+script  = "SELECT * FROM api_schema.rick_and_morty;"
+cursor.execute(script)
+
+query_result = []
+for rec in cursor.fetchall():
+    query_result.append(rec)
+
+print(len(query_result))
+
+
+# View db records using pandas  
+import pandas as pd
+column_names=['id', 'name', 'species', 'type', 'gender', 'origin', 'url', 'location', 'image', 'num_episode_feature',
+              'created', 'insert_date']
+df = pd.DataFrame(query_result, columns = column_names)
+print(df.head())
