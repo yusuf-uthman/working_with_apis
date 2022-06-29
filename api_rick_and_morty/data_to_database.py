@@ -110,6 +110,18 @@ def query_database(schema, table):
         query_result.append(rec)
     return query_result
 
+# main function that calls all other functions
+def process_api_data_all(schema, table, page_num):
+    create_schema(schema)
+    create_table(schema, table)
+    truncate_table(schema, table)
+    data_inserted = pull_and_insert_data(schema, table, page_num)
+    data_fetched = query_database(schema, table)
+    if len(data_inserted[1]) == len(data_fetched):
+        print(f"""Data count from api and database are {len(data_inserted[1])} and {len(data_fetched)} respectively. Operation successfull!""")
+    conn.close()
+
+
 # View db records using pandas  
 import pandas as pd
 column_names=['id', 'name', 'species', 'type', 'gender', 'origin', 'url', 'location', 'image', 'num_episode_feature',
