@@ -121,10 +121,9 @@ def process_api_data_all(schema, table, page_num):
         print(f"""Data count from api and database are {len(data_inserted[1])} and {len(data_fetched)} respectively. Operation successfull!""")
     conn.close()
 
-
-# View db records using pandas  
-import pandas as pd
-column_names=['id', 'name', 'species', 'type', 'gender', 'origin', 'url', 'location', 'image', 'num_episode_feature',
-              'created', 'insert_date']
-df = pd.DataFrame(query_result, columns = column_names)
-print(df.head())
+# call main function to run the program
+if __name__ == '__main__':
+    schema   = input("Enter Schema Name:\n ").lower()
+    table    = input("Enter Table Name:  \n").lower()
+    page_num = int(input("Enter API Start Page Number: \n"))
+    process_api_data_all(schema, table, page_num)
