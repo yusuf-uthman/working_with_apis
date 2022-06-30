@@ -24,4 +24,4 @@ jobs:
       - name: check present working directory
         run: ls
       - name: Run python script
-        run: ./api_rick_and_morty/data_to_database.py       
+        run: python ./api_rick_and_morty/data_to_database.py       
