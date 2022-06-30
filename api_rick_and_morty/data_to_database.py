@@ -24,6 +24,8 @@ def process_api_data_all(schema, table, page_num):
     data_fetched = query_database(schema, table)
     if len(data_inserted[1]) == len(data_fetched):
         print(f"""Data count from api and database are {len(data_inserted[1])} and {len(data_fetched)} respectively. Operation successfull!""")
+    else:
+        print("""Incomplete  data transfer!""")        
     conn.close()
 
 # create schema function
