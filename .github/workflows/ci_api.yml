@@ -20,8 +20,8 @@ jobs:
         with:
           python-version: '3.9'
 #      - name: install os
-#        run: pip install os
+#        run: import os
       - name: check present working directory
         run: ls
       - name: Run python script
-        run: python data_to_database.py        
+        run: ./api_rick_and_morty/data_to_database.py       
