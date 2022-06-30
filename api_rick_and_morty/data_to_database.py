@@ -10,7 +10,7 @@ import config
 # host      = config.host
 
 # credentials and variables from 
-schema   = ${{ secrets.HEROKU_DEMO_PG_SHEMA }}
+schema   = ${{ secrets.HEROKU_DEMO_PG_SCHEMA }}
 table    = ${{ secrets.HEROKU_DEMO_PG_TABLE }}
 page_num = 41
 password = ${{ secrets.HEROKU_DEMO_PG_PASS }}
