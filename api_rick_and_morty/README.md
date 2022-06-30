@@ -1,6 +1,6 @@
-# Rick & Morty API
-* [Base_Api_Url](https://rickandmortyapi.com/api)
-[Rick and Morty](https://en.wikipedia.org/wiki/Rick_and_Morty) is a crazed animated Adult Swim show that features an alcoholic mad scientist (Rick Sanchez)
+# [Rick & Morty API](https://rickandmortyapi.com)
+
+*[Rick and Morty](https://en.wikipedia.org/wiki/Rick_and_Morty) is a crazed animated Adult Swim show that features an alcoholic mad scientist (Rick Sanchez)
 who drags his good-hearted but hapless grandson (Morty Smith) into outrageous sci fi adventures.
 
 
