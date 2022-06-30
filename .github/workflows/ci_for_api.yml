@@ -22,6 +22,6 @@ jobs:
       - name: install os
         run: pip install os
       - name: Run python script
-        run: print(os.listdir())
+        run: ls
       - name: Run python script
         run: python data_to_database.py        
