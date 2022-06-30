@@ -8,3 +8,7 @@ Work with various kinds of api
 * [Get API Data By Next Page](https://github.com/yusuf-uthman/working_with_apis/blob/main/api_rick_and_morty/data_by_next_page.py)
 * [Get API Data By Page Number](https://github.com/yusuf-uthman/working_with_apis/blob/main/api_rick_and_morty/data_by_pages.py)
 * [Get API Data By Payload Result](https://github.com/yusuf-uthman/working_with_apis/blob/main/api_rick_and_morty/data_by_result.py)
+
+
+<!-- api https://rickandmortyapi.com/ -->
+<!-- https://en.wikipedia.org/wiki/Rick_and_Morty -->
