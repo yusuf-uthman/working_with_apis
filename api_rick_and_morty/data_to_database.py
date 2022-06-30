@@ -12,8 +12,8 @@ import config
 # credentials and variables from 
 port     = 5432
 page_num = 41
-schema   : ${{ secrets.HEROKU_DEMO_PG_SCHEMA }}
-table    : ${{ secrets.HEROKU_DEMO_PG_TABLE }}
+schema   = os.environ[HEROKU_DEMO_PG_SCHEMA]
+table    = os.environ[HEROKU_DEMO_PG_TABLE ]
 password : ${{ secrets.HEROKU_DEMO_PG_PASS }}
 user     : ${{ secrets.HEROKU_DEMO_PG_USER }}
 db       : ${ secrets.HEROKU_DEMO_PG_DB }
