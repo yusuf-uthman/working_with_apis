@@ -19,8 +19,8 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: '3.9'
-      - name: install os
-        run: pip install os
+#      - name: install os
+#        run: pip install os
       - name: check present working directory
         run: ls
       - name: Run python script
