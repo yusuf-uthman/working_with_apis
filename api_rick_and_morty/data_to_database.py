@@ -3,11 +3,21 @@ from   sqlalchemy import create_engine
 import config
 
 # call database credentials from imported config file
-password  = config.password
-user      = config.user
-db        = config.db
-port      = config.port
-host      = config.host
+# password  = config.password
+# user      = config.user
+# db        = config.db
+# port      = config.port
+# host      = config.host
+
+# credentials and variables from 
+schema   = ${{ secrets.HEROKU_DEMO_PG_SHEMA }}
+table    = ${{ secrets.HEROKU_DEMO_PG_TABLE }}
+page_num = 41
+password = ${{ secrets.HEROKU_DEMO_PG_PASS }}
+user     = ${{ secrets.HEROKU_DEMO_PG_USER }}
+db       = ${ secrets.HEROKU_DEMO_PG_DB }
+port     = 5432
+host     = ${{ secrets.HEROKU_DEMO_PG_HOST }}
 
 
 # create connetion to database
@@ -121,9 +131,13 @@ def query_database(schema, table):
         query_result.append(rec)
     return query_result
 
+# # call main function to run the program
+# if __name__ == '__main__':
+#     schema   = input("Enter Schema Name: ").lower()
+#     table    = input("Enter Table Name: ").lower()
+#     page_num = int(input("Enter API Start Page Number: "))
+#     process_api_data_all(schema, table, page_num)
+
 # call main function to run the program
 if __name__ == '__main__':
-    schema   = input("Enter Schema Name: ").lower()
-    table    = input("Enter Table Name: ").lower()
-    page_num = int(input("Enter API Start Page Number: "))
     process_api_data_all(schema, table, page_num)
