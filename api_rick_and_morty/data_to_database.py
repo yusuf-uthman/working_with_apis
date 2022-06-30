@@ -10,14 +10,14 @@ import config
 # host      = config.host
 
 # credentials and variables from 
-schema   = ${{ secrets.HEROKU_DEMO_PG_SCHEMA }}
-table    = ${{ secrets.HEROKU_DEMO_PG_TABLE }}
-page_num = 41
-password = ${{ secrets.HEROKU_DEMO_PG_PASS }}
-user     = ${{ secrets.HEROKU_DEMO_PG_USER }}
-db       = ${ secrets.HEROKU_DEMO_PG_DB }
 port     = 5432
-host     = ${{ secrets.HEROKU_DEMO_PG_HOST }}
+page_num = 41
+schema   : ${{ secrets.HEROKU_DEMO_PG_SCHEMA }}
+table    : ${{ secrets.HEROKU_DEMO_PG_TABLE }}
+password : ${{ secrets.HEROKU_DEMO_PG_PASS }}
+user     : ${{ secrets.HEROKU_DEMO_PG_USER }}
+db       : ${ secrets.HEROKU_DEMO_PG_DB }
+host     : ${{ secrets.HEROKU_DEMO_PG_HOST }}
 
 
 # create connetion to database
