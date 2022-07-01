@@ -3,16 +3,20 @@ from   sqlalchemy import create_engine
 import os
 # import config
 
+# api page start
+page_num = 41
+
 # call database credentials from imported config file
 # password  = config.password
 # user      = config.user
 # db        = config.db
 # port      = config.port
 # host      = config.host
+# table     = 'rick_and_morty'
+# schema    = 'api_schema'
 
 # credentials and variables from 
 port     = 5432
-page_num = 41
 schema   = os.environ.get("HEROKU_DEMO_PG_SCHEMA")
 table    = os.environ.get("HEROKU_DEMO_PG_TABLE")
 password = os.environ.get("HEROKU_DEMO_PG_PASS")
@@ -36,7 +40,7 @@ def process_api_data_all(schema, table, page_num):
     if len(data_inserted[1]) == len(data_fetched):
         print(f"""Data count from api and database are {len(data_inserted[1])} and {len(data_fetched)} respectively. Operation successfull!""")
     else:
-        print("""Incomplete  data transfer!""")        
+        print("""Incomplete data transfer!""")        
     conn.close()
 
 # create schema function
@@ -64,7 +68,7 @@ def create_table(schema, table):
     """)
     conn.commit()  
 
-# truncate table function
+# truncate table function #This function is not required if we are doing incremental load or change data capture(CDC)
 def truncate_table(schema, table):
     cursor.execute(f""" Truncate table {schema}.{table}; """)
     conn.commit()      
