@@ -16,7 +16,7 @@ page_num = 41
 # schema    = 'api_schema'
 
 # credentials and variables from 
-port     = 5432
+port     = int(os.environ.get("HEROKU_DEMO_PG_PORT"))
 schema   = os.environ.get("HEROKU_DEMO_PG_SCHEMA")
 table    = os.environ.get("HEROKU_DEMO_PG_TABLE")
 password = os.environ.get("HEROKU_DEMO_PG_PASS")
