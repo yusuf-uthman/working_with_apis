@@ -1,6 +1,6 @@
 import requests
 from   sqlalchemy import create_engine 
-import config
+# import config
 
 # call database credentials from imported config file
 # password  = config.password
