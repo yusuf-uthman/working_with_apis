@@ -24,4 +24,8 @@ jobs:
       - name: check present working directory
         run: ls
       - name: Run python script
-        run: python ./api_rick_and_morty/data_to_database.py       
+        run: |
+          python -m pip install --upgrade pip
+          pyhton pip install requests
+          pyhton pip install sqlalchemy
+          python ./api_rick_and_morty/data_to_database.py       
