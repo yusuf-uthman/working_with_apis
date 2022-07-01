@@ -7,6 +7,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
+      HEROKU_DEMO_PG_PORT: ${{ secrets.HEROKU_DEMO_PG_PORT }}
       HEROKU_DEMO_PG_HOST: ${{ secrets.HEROKU_DEMO_PG_HOST }}
       HEROKU_DEMO_PG_USER: ${{ secrets.HEROKU_DEMO_PG_USER }}
       HEROKU_DEMO_PG_PASS: ${{ secrets.HEROKU_DEMO_PG_PASS }}
