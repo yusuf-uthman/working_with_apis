@@ -1,7 +1,7 @@
-name: catchup_demo_ci
+name: ci_api_data_to_database
 on:
-  pull_request:
-    branches: [ main ]
+#  pull_request:
+#    branches: [ main ]
   workflow_dispatch:
 jobs:
   build:
