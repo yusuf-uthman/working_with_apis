@@ -1,5 +1,6 @@
 import requests
-from   sqlalchemy import create_engine 
+from   sqlalchemy import create_engine
+import os
 # import config
 
 # call database credentials from imported config file
