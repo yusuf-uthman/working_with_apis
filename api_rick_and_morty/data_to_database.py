@@ -13,12 +13,12 @@ import os
 # credentials and variables from 
 port     = 5432
 page_num = 41
-schema   = os.environ[HEROKU_DEMO_PG_SCHEMA]
-table    = os.environ[HEROKU_DEMO_PG_TABLE]
-password = os.environ[HEROKU_DEMO_PG_PASS]
-user     = os.environ[HEROKU_DEMO_PG_USER]
-db       = os.environ[HEROKU_DEMO_PG_DB]
-host     = os.environ[HEROKU_DEMO_PG_HOST]
+schema   = os.environ.get("HEROKU_DEMO_PG_SCHEMA")
+table    = os.environ.get("HEROKU_DEMO_PG_TABLE")
+password = os.environ.get("HEROKU_DEMO_PG_PASS")
+user     = os.environ.get("HEROKU_DEMO_PG_USER")
+db       = os.environ.get("HEROKU_DEMO_PG_DB")
+host     = os.environ.get("HEROKU_DEMO_PG_HOST")
 
 
 # create connetion to database
