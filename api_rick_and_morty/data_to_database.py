@@ -24,6 +24,8 @@ user     = os.environ.get("HEROKU_DEMO_PG_USER")
 db       = os.environ.get("HEROKU_DEMO_PG_DB")
 host     = os.environ.get("HEROKU_DEMO_PG_HOST")
 
+print(schema)
+
 
 # create connetion to database
 engine = create_engine(f"postgresql://{user}:{password}@{host}:{port}/{db}")
