@@ -31,7 +31,6 @@ cursor = conn.cursor()
 
 # main function that calls all other functions
 def process_api_data_all(schema, table, page_num):
-    print(schema)
     create_schema(schema)
     create_table(schema, table)
     truncate_table(schema, table)
