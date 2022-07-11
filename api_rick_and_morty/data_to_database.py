@@ -24,9 +24,6 @@ user     = os.environ.get("HEROKU_DEMO_PG_USER")
 db       = os.environ.get("HEROKU_DEMO_PG_DB")
 host     = os.environ.get("HEROKU_DEMO_PG_HOST")
 
-print(schema)
-
-
 # create connetion to database
 engine = create_engine(f"postgresql://{user}:{password}@{host}:{port}/{db}")
 conn   = engine.raw_connection()
@@ -34,6 +31,7 @@ cursor = conn.cursor()
 
 # main function that calls all other functions
 def process_api_data_all(schema, table, page_num):
+    print(schema)
     create_schema(schema)
     create_table(schema, table)
     truncate_table(schema, table)
