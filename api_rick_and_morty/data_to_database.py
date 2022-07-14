@@ -118,7 +118,7 @@ def pull_and_insert_data(schema, table, page_num):
                rec['created']
             ]
             actor_dict_list.append(actor_dict)
-            actor_list_list.append(actor_list)   
+            actor_list_list.append(actor_list) 
         page_num +=1
     for rec in actor_list_list:
         cursor.execute(f"""INSERT into {schema}.{table}(id, name, species, type, gender, origin, url, location,
